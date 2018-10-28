@@ -11,7 +11,8 @@ app.get('/test2', (req, res) => {
     res.send('very good')
 })
 
-app.get('/test', (req, res) => {
+// http://localhost:3000/address?address=nigel@timenowsoftware.co.uk
+app.get('/address', (req, res) => {
 
         console.log('call to pwned')
         // const options = {
@@ -20,15 +21,21 @@ app.get('/test', (req, res) => {
         //     path: '/',
         //     agent: https.globalAgent
         //   };
+console.log(req.query)
+
+    const address = req.query.address;
+
+    console.log(`finding breaches for ${address}`)
 
     const options = {
         host :  `haveibeenpwned.com`,
         port : 443,
-        path : '/api/v2/breachedaccount/test@example.com',
+        path : `/api/breachedaccount/${address}`,
         // agent: 'Pwnage-Checker-For-iOS',
         method: 'GET',
         headers: {
-            'User-Agent': 'MY IPHINE 7s'
+            'User-Agent': 'Get My Ingfo',
+            'api-version': '2'
           }       
     }
 
@@ -45,7 +52,6 @@ app.get('/test', (req, res) => {
             });
 
             received.on('end', () => {
-                console.log(data)
                 res.send(JSON.stringify(data));
                 // res.send('good')
                 console.log('after pwned')
